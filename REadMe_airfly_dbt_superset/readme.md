@@ -1,21 +1,16 @@
-With this project we will see the interactions between postgresql, dbt, airflow and suberset services. 
-psql will store and compute for raw data tables and also created tables and views.
-dbt will provide a jinja and folder structure to provide new SQL.
-airflow will include triggers
-superset will help visualisation. 
-storing and(computing), transforming and re-presenting, 
-automatic schedulers for triggering
-making visible (visualisaiton) 
+# About Project
+A project that will ingest data from weather API each 5 minutes, it will store in the postgresql database
+dbt will enable some trasnformations  to process data and create new tables. 
+an airflow service will provide  automatic schedules. 
+Sueperset will visualsize  the tables. 
 
 services will be containerized.
 
-# Project basics, Environment satting . 
+# Project basics, Environment settings: wsl connected vs code & docker desktor with wsl enabled
+* some question to understand the setup:
 ? Docker Desktop enable wsl , how and where we can do it?
-
 ? what does wsl integration means? A: bridge between 
-
 ? to make python python3 we need to make alias. 
-
 ? Docker Desktop wsl enabled or install Docker inside wsl? 
 ChatGpt says they are almost identical but 
 
@@ -28,19 +23,18 @@ The above chatgpt  may . IT seems the wsl is creating its containers  direcly.
   ? Role of DAG in airflow. 
   A: airflow  will accept the orchestarator.py in python always. 
 
-  * import neighboring file.py  for a spedcific function: how it know the path to the file.  
+  * import neighboring file.py  for a specific function: how it know the path to the file.  
   A:either like "from FolderA.FolderB.file import func2" or like sys.path.append('/FolderX/folderY') from file2 import func2.
 
-# Docker container related topics
+# Docker and  containerisation related topics
 
-* command property in d-c.yml file is differetn from CMD or ENTYPOINT in Dockerfile
-
+* command property in d-c.yml file is different from CMD or ENTYPOINT in Dockerfile
 ? for dbt, it it advisible to include a command property in d-c.yml? A: not in general. but for CI pipelines, recommended. 
 
 * up/down a single container. // specific command in cli
 ?
 
-* mount: think not geometric restriction  rather as loose category naming:
+* mount: think not geometric restriction,  rather as loose category naming:
 mount is very flexible. the parent folder can mount to a different place while the child  folder can mount to a different place.
 
 * Mount obj of Airflow Docker Operator or Docker Python SDK
@@ -56,8 +50,8 @@ x- extensien field.
 *name aşağda container içinde çağrılır. 
 
 * 
-#### down/up/restart
-? when I remove a mounted folder, and up the container.  there is problem. I need to don -v the container after rm -rf data, and then up to work?
+#### down/up/restart for containers. 
+? when I remove a mounted folder, and unmount the container.  there is problem. I need to don -v the container after rm -rf data, and then up to work? See also volumes section.
 
 #### ownership /group id
 ? 
@@ -85,7 +79,7 @@ A: I guess all 3 are possible
 set -e to ensure EXIT, -o pipefail is to ensure in docker
 
 
-# psq, airflow, dbt,CONTAINERS
+# CONTAINERS
 
   ## Postgresql service and container. 
   I will not give that much detail about this service here. one of the contrasting thing that I have learnt  is that it is the this service that  do the computing. The fact that the dbt container specifies 4 threads is to send 4 concurrent jobs/batch to the psql service. The psql service itself handle its own threading or parallelism.
